@@ -29,7 +29,7 @@ variable "key_name" {
 
 variable "s3_bucket" {
   type = string
-  default = "s3://aws-training-mkrysiuk-1616407765"
+  default = "s3://aws-training-pythonrocks-20210322"
 }
 
 variable "s3_prefix" {

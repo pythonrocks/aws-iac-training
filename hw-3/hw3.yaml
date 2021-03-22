@@ -76,12 +76,15 @@ Parameters:
   S3Bucket:
     Description: S3 bucket with test file
     Type: String
+    Default: s3://aws-training-pythonrocks-20210322
   S3Prefix:
     Description: Path to s3 file to download on instance startup
     Type: String
+    Default: testfile.txt
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access
     Type: AWS::EC2::KeyPair::KeyName
+    Default: test
   InstanceType:
     Description: Type of the EC2 instance
     Type: String
