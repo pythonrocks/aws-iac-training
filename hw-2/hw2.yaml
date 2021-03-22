@@ -1,0 +1,65 @@
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access
+    Type: AWS::EC2::KeyPair::KeyName
+  InstanceType:
+    Description: Type of the EC2 instance
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t1.micro
+      - t2.nano
+      - t2.micro
+      - t2.small
+  AmiName:
+    Description: AMI ID to use when creating instance
+    Type: String
+    Default: amazon
+    AllowedValues:
+      - ubuntu
+      - amazon
+Mappings:
+  AMIMap:
+    us-west-2:
+      ubuntu: ami-0ca5c3bd5a268e7db
+      amazon: ami-00f9f4069d04c0c6e
+Resources:
+  MyAutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"
+    Properties:
+      LaunchConfigurationName: !Ref LaunchConfig
+      DesiredCapacity: "2"
+      MinSize: "2"
+      MaxSize: "2"
+      AvailabilityZones:
+        - us-west-2a
+  LaunchConfig:
+    Type: "AWS::AutoScaling::LaunchConfiguration"
+    Metadata:
+      "AWS::CloudFormation::Init":
+        config:
+          packages:
+            yum:
+              java-1.8.0-openjdk: []
+    Properties:
+      SecurityGroups:
+        - !Ref SecGroup
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      ImageId: !FindInMap
+        - AMIMap
+        - !Ref 'AWS::Region'
+        - !Ref AmiName
+  SecGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: SSH access and HTTP access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: "80"
+          ToPort: "80"
+          CidrIp: 0.0.0.0/0
