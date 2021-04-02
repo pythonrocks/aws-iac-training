@@ -1,0 +1,29 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        },
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+                "Service": "dynamodb.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        },
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+                "Service": "rds.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        }
+    ]
+}
